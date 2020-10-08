@@ -1,0 +1,1 @@
+final String BASE_URL = 'https://api.jikan.moe/v3/anime/1/recommendations';
