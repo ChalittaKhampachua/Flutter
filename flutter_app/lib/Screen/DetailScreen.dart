@@ -11,6 +11,14 @@ class DetailScreen extends StatelessWidget {
   }
 }
 
+class DetailWidget extends StatefulWidget{
+  final RecommendAnime _data;
+  DetailWidget(this._data);
+
+  @override
+  State<StatefulWidget> createState() => new DetailState(this._data);
+}
+
 class DetailState extends State<DetailWidget>{
   final RecommendAnime _data;
   DetailState(this._data);
@@ -42,12 +50,4 @@ class DetailState extends State<DetailWidget>{
     );
   }
 
-}
-
-class DetailWidget extends StatefulWidget{
-  final RecommendAnime _data;
-  DetailWidget(this._data);
-
-  @override
-  State<StatefulWidget> createState() => new DetailState(this._data);
 }

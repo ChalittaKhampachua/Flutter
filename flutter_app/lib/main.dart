@@ -19,6 +19,11 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class HomeWidget extends StatefulWidget{
+  @override
+  State createState() => new HomeState();
+}
+
 class HomeState extends State<HomeWidget> {
   Future<DataAnime> resultAnime;
 
@@ -26,31 +31,6 @@ class HomeState extends State<HomeWidget> {
   void initState() {
     super.initState();
     resultAnime = fetchAnime();
-  }
-
-  Widget _buildAnimeGrid(BuildContext context, List<RecommendAnime> data) {
-    return GridView.count(
-      crossAxisCount: 3,
-      padding: const EdgeInsets.all(5),
-      mainAxisSpacing: 30,
-      crossAxisSpacing: 0,
-      childAspectRatio: 1.0,
-      children: List.generate(data.length, (index) => InkResponse(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children:[
-            Expanded(
-              child: Image.network('${data[index].image_url}'),
-            ),
-            Container(
-              padding: EdgeInsets.all(2),
-              child: Text('${data[index].title}'),
-            )
-          ],),
-        onTap: () => _onItemClicked(data[index]),
-      )
-      ),
-    );
   }
 
   @override
@@ -80,6 +60,31 @@ class HomeState extends State<HomeWidget> {
     );
   }
 
+  Widget _buildAnimeGrid(BuildContext context, List<RecommendAnime> data) {
+    return GridView.count(
+      crossAxisCount: 3,
+      padding: const EdgeInsets.all(5),
+      mainAxisSpacing: 30,
+      crossAxisSpacing: 0,
+      childAspectRatio: 1.0,
+      children: List.generate(data.length, (index) => InkResponse(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children:[
+            Expanded(
+              child: Image.network('${data[index].image_url}'),
+            ),
+            Container(
+              padding: EdgeInsets.all(2),
+              child: Text('${data[index].title}'),
+            )
+          ],),
+        onTap: () => _onItemClicked(data[index]),
+      )
+      ),
+    );
+  }
+
   void _onItemClicked(RecommendAnime data) {
     log('clicked: ${data.title}');
     Navigator.push(
@@ -88,9 +93,4 @@ class HomeState extends State<HomeWidget> {
     );
   }
 
-}
-
-class HomeWidget extends StatefulWidget{
-  @override
-  State createState() => new HomeState();
 }
