@@ -1,10 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Screen/DetailScreen.dart';
 import 'package:flutter_app/model/DataAnime.dart';
 import 'package:flutter_app/Repository/DataRepository.dart';
 import 'package:flutter_app/model/RecommendAnime.dart';
-import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
 
@@ -30,11 +30,13 @@ class HomeState extends State<HomeWidget> {
 
   Widget _buildAnimeGrid(BuildContext context, List<RecommendAnime> data) {
     return GridView.count(
-        crossAxisCount: 3,
-        padding: const EdgeInsets.all(5),
-        mainAxisSpacing: 30,
-        crossAxisSpacing: 0,
-        children: List.generate(data.length, (index) => Column(
+      crossAxisCount: 3,
+      padding: const EdgeInsets.all(5),
+      mainAxisSpacing: 30,
+      crossAxisSpacing: 0,
+      childAspectRatio: 1.0,
+      children: List.generate(data.length, (index) => InkResponse(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children:[
             Expanded(
@@ -44,8 +46,10 @@ class HomeState extends State<HomeWidget> {
               padding: EdgeInsets.all(2),
               child: Text('${data[index].title}'),
             )
-          ],
-        )),
+          ],),
+        onTap: () => _onItemClicked(data[index]),
+      )
+      ),
     );
   }
 
@@ -73,6 +77,14 @@ class HomeState extends State<HomeWidget> {
           }
         },
       ) ,
+    );
+  }
+
+  void _onItemClicked(RecommendAnime data) {
+    log('clicked: ${data.title}');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => DetailScreen(data)),
     );
   }
 

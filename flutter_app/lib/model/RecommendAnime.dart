@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class RecommendAnime {
   final int mal_id;
   final String image_url;
