@@ -1,14 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screen/DetailScreen.dart';
-import 'package:flutter_app/model/DataAnime.dart';
-import 'package:flutter_app/Repository/DataRepository.dart';
-import 'package:flutter_app/model/RecommendAnime.dart';
+import 'dart:developer';
+import 'Screen/AnimeScreen.dart';
+
 
 void main() => runApp(MyApp());
 
-final titleName = 'Anime Recommend';
+final titleName = 'Flutter Learning';
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -25,13 +23,8 @@ class HomeWidget extends StatefulWidget{
 }
 
 class HomeState extends State<HomeWidget> {
-  Future<DataAnime> resultAnime;
-
-  @override
-  void initState() {
-    super.initState();
-    resultAnime = fetchAnime();
-  }
+  var menuList = ["Http", "Sliver"];
+  var screenList = [AnimeScreen(), AnimeScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -41,55 +34,55 @@ class HomeState extends State<HomeWidget> {
           child: Text(titleName),
         ),
       ),
-      body: FutureBuilder<DataAnime>(
-        future: resultAnime,
-        builder: (context, snapshot){
-          if (snapshot.hasData) {
-            return _buildAnimeGrid(context, snapshot.data.recommendations);
-          }else if(snapshot.hasError){
-            return Center(
-              child:  Text("Error")
-            );
-          }else{
-            return Center(
-              child: Text("Loading..."),
-            );
-          }
-        },
-      ) ,
-    );
-  }
+      body: CustomScrollView(
+        slivers: [
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                return InkWell(
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: listItem(Colors.tealAccent.withOpacity(0.6) ,menuList[index]),
+                  ),
+                  onTap: () => _onItemClicked(menuList[index], screenList[index]),
+                );
 
-  Widget _buildAnimeGrid(BuildContext context, List<RecommendAnime> data) {
-    return GridView.count(
-      crossAxisCount: 3,
-      padding: const EdgeInsets.all(5),
-      mainAxisSpacing: 30,
-      crossAxisSpacing: 0,
-      childAspectRatio: 1.0,
-      children: List.generate(data.length, (index) => InkResponse(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children:[
-            Expanded(
-              child: Image.network('${data[index].image_url}'),
+              },
+              childCount: 2,
             ),
-            Container(
-              padding: EdgeInsets.all(2),
-              child: Text('${data[index].title}'),
-            )
-          ],),
-        onTap: () => _onItemClicked(data[index]),
+          )
+        ],
       )
-      ),
     );
   }
 
-  void _onItemClicked(RecommendAnime data) {
-    log('clicked: ${data.title}');
+  Widget listItem(Color background, String title) => Container(
+    height: 80.0,
+    child: Card(
+      semanticContainer: true,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      color: background,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0),),
+      elevation: 5,
+      margin: EdgeInsets.all(10),
+      child: Center(
+        child: Text(
+          "$title",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: 18.0,
+              fontWeight: FontWeight.normal),
+        ),
+      ),
+    ),
+  );
+
+  _onItemClicked(String menuList, StatelessWidget screenList) {
+    log('menu clicked: $menuList');
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => DetailScreen(data)),
+      MaterialPageRoute(builder: (context) => screenList),
     );
   }
 

@@ -25,7 +25,8 @@ class DetailState extends State<DetailWidget>{
 
   @override
   Widget build(BuildContext context) {
-
+//https://medium.com/flutter-community/flutter-widget-guide-slivergrid-widget-in-5-mins-or-less-e6a95d6c4e76
+  //น่าสนใจเอามาทำในหน้านี้
     return Scaffold(
         appBar: AppBar(
           leading: BackButton(
