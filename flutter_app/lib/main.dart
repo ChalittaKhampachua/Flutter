@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/Screen/DetailScreen.dart';
+import 'package:flutter_app/Screen/NewScreen.dart';
+import 'package:flutter_app/Screen/ReviewScreen.dart';
 import 'dart:developer';
 import 'Screen/AnimeScreen.dart';
 
@@ -23,8 +24,8 @@ class HomeWidget extends StatefulWidget{
 }
 
 class HomeState extends State<HomeWidget> {
-  var menuList = ["Http", "Sliver"];
-  var screenList = [AnimeScreen(), AnimeScreen()];
+  var menuList = ["Anime Recommend (Http)", "Anime Review (JsonSerializableGenerator)", "Anime News (Sliver)"];
+  var screenList = [AnimeScreen(), ReviewScreen(), NewScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class HomeState extends State<HomeWidget> {
                 );
 
               },
-              childCount: 2,
+              childCount: menuList.length,
             ),
           )
         ],
